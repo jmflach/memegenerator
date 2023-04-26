@@ -42,7 +42,19 @@ class PhrasesGetter:
 
     def _get_phrase_at_page_index(self, page, i):
         """Get the phrase at specific page and specific index"""
-        return self._get_phrases_at_page(page)["phrases"][i]
+        
+        phrases = self._get_phrases_at_page(page)["phrases"]
+        
+        while phrases == [] and page > 0:
+            page -= 1
+            phrases = self._get_phrases_at_page(page)["phrases"]
+        if phrases == []:
+            return "No phrases found with this character limit."    
+        if len(phrases) > i:
+            phrase = phrases[i]
+        else:
+            phrase = phrases[-1]
+        return phrase
 
 
     def _get_phrase_at_index(self, i):
