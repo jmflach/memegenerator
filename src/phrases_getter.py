@@ -5,7 +5,7 @@ import random
 
 class PhrasesGetter:
 
-    def __init__(self, query, n, max_len):
+    def __init__(self, query, max_len):
         """Construct a PhrasesGetter
 
         Args:
@@ -15,7 +15,6 @@ class PhrasesGetter:
         """
         self.query = query
         self.link = "https://www.pensador.com/" + query + "/"
-        self.n = n
         self.max_len = max_len
 
     def _get_phrases_at_page(self, page):
@@ -58,21 +57,21 @@ class PhrasesGetter:
         return self._get_phrase_at_page_index(page, i)
 
 
-    def get_phrases(self):
+    def get_phrases(self, n):
         """Get phrases from https://www.pensador.com/"""
         current_n = 0
         page = 0
         phrases = []
-        while(current_n < self.n and page < 10):
+        while(current_n < n and page < 10):
             page +=1
             r = self._get_phrases_at_page(page)
             phrases += r["phrases"]
             current_n += r["n"]
-        return {"phrases": phrases[0:self.n], "n": len(phrases[0:self.n])}
+        return {"phrases": phrases[0:n], "n": len(phrases[0:n])}
 
 
     def get_random_phrase(self):
         """Get a random phrase from https://www.pensador.com/"""
-        r = random.randrange(self.n)
+        r = random.randrange(150)
         print(r)
-        return self.get_phrase_at_index(r)
+        return self._get_phrase_at_index(r)

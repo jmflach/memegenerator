@@ -29,12 +29,12 @@ def update_item(item_id: int, item: Item):
 
 @app.get("/frases/{q}")
 def get_phrases(q: str, n: int, max_len: Union[int, None] = None):
-    getter = phrases_getter.PhrasesGetter(q, n, max_len)
-    phrases = getter.get_phrases()
+    getter = phrases_getter.PhrasesGetter(q, max_len)
+    phrases = getter.get_phrases(n)
     return {"query": q, "n": n, "max_len": max_len, "frases": phrases}
 
 @app.get("/random_frase/{q}")
-def get_random_phrase(q: str, n: int, max_len: Union[int, None] = None):
-    getter = phrases_getter.PhrasesGetter(q, n, max_len)
-    phrase = getter.get_random_phrase(n)
-    return {"query": q, "n": n, "max_len": max_len, "frase": phrase}
+def get_random_phrase(q: str, max_len: Union[int, None] = None):
+    getter = phrases_getter.PhrasesGetter(q, max_len)
+    phrase = getter.get_random_phrase()
+    return {"query": q, "max_len": max_len, "frase": phrase}
